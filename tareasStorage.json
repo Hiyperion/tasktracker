@@ -1,0 +1,24 @@
+{
+    "tareas": [
+        {
+            "id": 1,
+            "name": "probar1",
+            "state": "TODO"
+        },
+        {
+            "id": 2,
+            "name": "probar2",
+            "state": "TODO"
+        },
+        {
+            "id": 3,
+            "name": "probar4",
+            "state": "TODO"
+        },
+        {
+            "id": 4,
+            "name": "probar5",
+            "state": "TODO"
+        }
+    ]
+}
