@@ -1,4 +1,5 @@
 class TASK :
+	#TODO add description createdAT updatedAt
 	def __init__(self, id=-1, name='', state='TODO'):
 		self.id = id
 		self.name = name

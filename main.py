@@ -25,7 +25,6 @@ def saveToJson(task:TASK):
 			data = json.load(file)
 		data['tareas'].append(task.__dict__())
 		with open(FILE_NAME, "w") as file:
-			print(data)
 			json.dump(data, file, indent=4)
 		print(f"Task '{task.name}' saved to {FILE_NAME}.")
 	except Exception as e:
@@ -48,14 +47,63 @@ def addTask(task:TASK):
 
 
 	
-def deleteTask(task):
-	print(f"Task '{task}' deleted.")
-def updateTask(old, newTask):
-	print(f"Task '{old}' updated to '{newTask}'.")
-def markInProgress(task):
-	print(f"Task '{task}' marked as in progress.")
-def markDone(task):
-	print(f"Task '{task}' marked as done.")
+def deleteTask(id):
+	
+	try:
+		with open(FILE_NAME, "r") as file:
+			data = json.load(file)
+		data['tareas'] = [task for task in data['tareas'] if task['id'] != int(id)]
+		with open(FILE_NAME, "w") as file:
+			json.dump(data, file, indent=4)
+	except Exception as e:
+		print(f"Error saving data to storage updatedata: {e}")
+
+
+
+
+def updateTask(id, newName):
+	
+	try:
+		with open(FILE_NAME, "r") as file:
+			data = json.load(file)
+		found = False
+		for task in data['tareas']:
+			if task['id'] == int(id):
+				oldName = task['name']
+				task['name'] = newName
+				found = True 
+				break
+		if not found:
+			print(f"Task with id '{id}' not found.")
+			return
+
+		with open(FILE_NAME, "w") as file:
+			json.dump(data, file, indent=4)
+		print(f"Task '{id}': ' {oldName}' updated to '{newName}'.")
+	except Exception as e:
+		print(f"Error saving data to storage updatedata: {e}")
+
+def changeState(id, newState):
+	try:
+		with open(FILE_NAME, "r") as file:
+			data = json.load(file)
+		found = False
+		for task in data['tareas']:
+			if task['id'] == int(id):
+				task['state'] = newState
+				found = True 
+				break
+		if not found:
+			print(f"Task with id '{id}' not found.")
+			return
+
+		with open(FILE_NAME, "w") as file:
+			json.dump(data, file, indent=4)
+		print(f"Task '{id}' marked as '{newState}'.")
+	except Exception as e:
+		print(f"Error saving data to storage change state: {e}")
+
+	
 def listTasks(option):
 	print("Listing all tasks ")
 	try:
@@ -69,6 +117,12 @@ def listTasks(option):
 					print(taskO)
 				elif option == "TODO":
 					if taskO.state == "TODO":
+						print(taskO)
+				elif option == "IN-PROGRESS":
+					if taskO.state == "IN-PROGRESS":
+						print(taskO)
+				elif option == "DONE":
+					if taskO.state == "DONE":
 						print(taskO)
 				else:
 					print(f"Error: Invalid state '{option}'.")
@@ -91,7 +145,7 @@ def getCurrentId():
 
 def main():
 	parser = argparse.ArgumentParser(description="Task Manager")
-	parser.add_argument("action", choices=["add", "delete", "update","list"], help="Action to perform")
+	parser.add_argument("action", choices=["add", "delete", "update","mark-in-progress","mark-done","list"], help="Action to perform")
 	parser.add_argument("-v","--value", help="Value for the action", required=False)
 	parser.add_argument("-u","--updateValue", help="Value for the action", required=False)
 
@@ -101,13 +155,22 @@ def main():
 	if args.action == "add":
 		task = TASK(getCurrentId(),args.value, "TODO")
 		addTask(task)
-		
+	if args.action == "update":
+		updateTask(args.value, args.updateValue)
+
+	if args.action == "delete":
+		deleteTask(args.value)
+		print(f"Task '{args.value}' deleted.")
+	if args.action == "mark-in-progress":
+		changeState(args.value, "IN-PROGRESS")
+
+	if args.action == "mark-done":
+		changeState(args.value, "DONE")
 
 	if args.action == "list":
 		listTasks(args.value)
 
-
-	print("Hello, World!")
+	
 	# Add your code here
 
 

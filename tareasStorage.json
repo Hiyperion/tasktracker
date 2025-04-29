@@ -2,13 +2,13 @@
     "tareas": [
         {
             "id": 1,
-            "name": "probar1",
+            "name": "COMPRAR COSAS en el super",
             "state": "TODO"
         },
         {
             "id": 2,
             "name": "probar2",
-            "state": "TODO"
+            "state": "IN-PROGRESS"
         },
         {
             "id": 3,
@@ -17,8 +17,18 @@
         },
         {
             "id": 4,
-            "name": "probar5",
+            "name": "TESTANDO",
+            "state": "DONE"
+        },
+        {
+            "id": 5,
+            "name": "COMPRAR CAMISA",
             "state": "TODO"
+        },
+        {
+            "id": 6,
+            "name": "TTAREA TEMPORAL",
+            "state": "IN-PROGRESS"
         }
     ]
 }
